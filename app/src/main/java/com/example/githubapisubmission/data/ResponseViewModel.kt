@@ -1,7 +1,12 @@
 package com.example.githubapisubmission.data
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.githubapisubmission.data.response.DetailUserResponse
+import com.example.githubapisubmission.data.response.FollowersListResponse
+import com.example.githubapisubmission.data.response.FollowingListResponse
 import com.example.githubapisubmission.data.response.GithubResponse
 import com.example.githubapisubmission.data.retrofit.ApiConfig
 import retrofit2.Call
@@ -10,12 +15,17 @@ import retrofit2.Response
 
 class ResponseViewModel : ViewModel() {
     //SEARCH -> FOTO,USERNAME
-    private var responseBodyMain: GithubResponse? = null
-    private var userFoundCount: Int? = null
-    //DETAIL -> FOTO,USERNAME,NAMA,JUMLAH FOLLOWER,JUMLAH FOLLOWING
-    private var responseBodyDetail : DetailUserResponse? = null
+    private val responseBodyMain: MutableLiveData<GithubResponse?> by lazy {
+        MutableLiveData<GithubResponse?>()
+    }
+    val readResponseBoydMain: LiveData<GithubResponse?> get() = responseBodyMain
 
-    fun getUsers(username: String) {
+    private val lastQuery: MutableLiveData<String> by lazy {
+        MutableLiveData<String>()
+    }
+
+
+    fun getUsersAPI(username: String) {
         val client = ApiConfig.getApiService().getUser(username)
 
         client.enqueue(object : Callback<GithubResponse> {
@@ -23,30 +33,11 @@ class ResponseViewModel : ViewModel() {
                 call: Call<GithubResponse>,
                 response: Response<GithubResponse>
             ) {
-                responseBodyMain = response.body()
-                userFoundCount = responseBodyMain?.totalCount
 
+                responseBodyMain.value = response.body()
             }
 
             override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
-
-    fun getDetailUser(username: String){
-        val client = ApiConfig.getApiService().getDetailUser(username)
-
-        client.enqueue(object : Callback<DetailUserResponse>{
-            override fun onResponse(
-                call: Call<DetailUserResponse>,
-                response: Response<DetailUserResponse>
-            ) {
-                responseBodyDetail = response.body()
-            }
-
-            override fun onFailure(call: Call<DetailUserResponse>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
