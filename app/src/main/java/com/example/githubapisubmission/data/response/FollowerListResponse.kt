@@ -2,13 +2,8 @@ package com.example.githubapisubmission.data.response
 
 import com.google.gson.annotations.SerializedName
 
-data class FollowingListResponse(
 
-	@field:SerializedName("FollowingListResponse")
-	val followingListResponse: List<FollowingListResponseItem?>? = null
-)
-
-data class FollowingListResponseItem(
+data class FollowListResponse(
 
 	@field:SerializedName("gists_url")
 	val gistsUrl: String? = null,

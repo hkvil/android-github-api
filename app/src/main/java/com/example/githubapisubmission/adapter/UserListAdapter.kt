@@ -1,6 +1,6 @@
 package com.example.githubapisubmission.adapter
 
-import android.util.Log
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +8,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.githubapisubmission.DetailActivity
 import com.example.githubapisubmission.R
-import com.example.githubapisubmission.data.response.GithubResponse
 import com.example.githubapisubmission.data.response.ItemsItem
+import com.example.githubapisubmission.data.response.UsersResponse
 
-class UserListAdapter(private val list: GithubResponse?) :
+class UserListAdapter(private val list: UsersResponse?) :
     RecyclerView.Adapter<UserListAdapter.UserListViewHolder>() {
     class UserListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var username: TextView = itemView.findViewById(R.id.text_view_username)
@@ -41,6 +42,12 @@ class UserListAdapter(private val list: GithubResponse?) :
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
         //Log.d("OnBind", list?.items?.get(position).toString())
+        val context = holder.itemView.context
         holder.bind(list?.items?.get(position))
+        holder.itemView.setOnClickListener{
+            val intent = Intent(context,DetailActivity::class.java)
+            intent.putExtra("username",list?.items?.get(position)?.login.toString())
+            context.startActivity(intent)
+        }
     }
 }

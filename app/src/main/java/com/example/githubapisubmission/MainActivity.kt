@@ -1,63 +1,54 @@
 package com.example.githubapisubmission
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.SearchView
+import android.util.Log
 import android.widget.Toast
-import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubapisubmission.adapter.UserListAdapter
-import com.example.githubapisubmission.data.ResponseViewModel
-import com.example.githubapisubmission.data.response.GithubResponse
+import com.example.githubapisubmission.data.viewmodel.SharedViewModel
+import com.example.githubapisubmission.data.response.UsersResponse
+import com.example.githubapisubmission.data.viewmodel.MainActivityViewModel
 import com.example.githubapisubmission.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var recyclerView: RecyclerView
-    private lateinit var viewModel: ResponseViewModel
+    private lateinit var viewModel: MainActivityViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        //go() Make auto nav to Detail,FOr testing only
+        supportActionBar?.title = "Github Users Search"
         recyclerView = binding.recyclerViewMain
         setupSearchBar()
-        //TODO,SEARCH BAR BELUM BENER
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this)[ResponseViewModel::class.java]
-        val responseObserver = Observer<GithubResponse?> {
+        viewModel = ViewModelProvider(this)[MainActivityViewModel::class.java]
+        val responseObserver = Observer<UsersResponse?> {
             if (it != null) {
                 setupRecyclerView(it)
             }
         }
         viewModel.readResponseBoydMain.observe(this, responseObserver)
 
-        // viewModel.getUsersAPI("hkvil")
-
     }
 
 
-    private fun setupRecyclerView(list: GithubResponse) {
+    private fun setupRecyclerView(list: UsersResponse) {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = UserListAdapter(list)
 
     }
 
-    private fun go() {
-        val intent = Intent(this, DetailActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun setupSearchBar() {
         with(binding) {
             searchView.setupWithSearchBar(searchBar)
-            searchView.editText.setOnEditorActionListener { textView, actionID, event ->
+            searchView.editText.setOnEditorActionListener { _, _, _ ->
                 searchBar.text = searchView.text
                 searchView.hide()
                 viewModel.getUsersAPI(searchView.text.toString())

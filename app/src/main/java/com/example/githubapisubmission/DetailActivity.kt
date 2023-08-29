@@ -1,51 +1,57 @@
 package com.example.githubapisubmission
 
+import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
+import androidx.activity.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.githubapisubmission.adapter.SectionsPagerAdapter
-import com.example.githubapisubmission.data.response.GithubResponse
-import com.example.githubapisubmission.data.retrofit.ApiConfig
+import com.example.githubapisubmission.data.viewmodel.SharedViewModel
+import com.example.githubapisubmission.data.response.DetailUserResponse
 import com.example.githubapisubmission.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import kotlinx.coroutines.launch
 
 
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-
+    private lateinit var username:String
+    private val viewModel: SharedViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
+        supportActionBar?.title = "Detail User"
+        username = intent.getStringExtra("username").toString()
+        lifecycleScope.launch {
+            getAPI()
+            setupData()
+        }
         setupTabLayout()
-        testAPI()
         setContentView(binding.root)
+    }
 
+    @SuppressLint("SetTextI18n")
+    private fun setupData() {
+        val dataObserver = Observer<DetailUserResponse?>{
+            binding.textViewName.text = it?.name
+            binding.textViewUsername.text = it?.login
+            Glide.with(this).load(it?.avatarUrl).into(binding.imageViewProfil)
+            binding.textViewFollowers.text = "${it?.followers} Followers"
+            binding.textViewFollowing.text = "${it?.following} Following"
+        }
+        viewModel.readResponseBodyDetailUser.observe(this,dataObserver)
 
     }
 
-    private fun testAPI() {
-        val client = ApiConfig.getApiService().getUser("hkvil")
-        client.enqueue(object: Callback<GithubResponse> {
-            override fun onResponse(
-                call: Call<GithubResponse>,
-                response: Response<GithubResponse>
-            ) {
-                if (response.isSuccessful){
-                    val responseBody = response.body()
-                    Log.d("TESAPI", responseBody?.items?.get(0).toString())
-                }
-            }
-
-            override fun onFailure(call: Call<GithubResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-
-        })
+    private fun getAPI() {
+        viewModel.getDetailUserAPI(username)
+        viewModel.getFollowerListAPI(username)
+        viewModel.getFollowingListAPI(username)
     }
+
 
     private fun setupTabLayout() {
         val sectionsPagerAdapter = SectionsPagerAdapter(this)
