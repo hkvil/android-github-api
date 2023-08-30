@@ -3,13 +3,16 @@ package com.example.githubapisubmission
 import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.githubapisubmission.adapter.SectionsPagerAdapter
-import com.example.githubapisubmission.data.viewmodel.SharedViewModel
 import com.example.githubapisubmission.data.response.DetailUserResponse
+import com.example.githubapisubmission.data.viewmodel.DetailViewModel
+import com.example.githubapisubmission.data.viewmodel.FollowerViewModel
+import com.example.githubapisubmission.data.viewmodel.FollowingViewModel
 import com.example.githubapisubmission.databinding.ActivityDetailBinding
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.coroutines.launch
@@ -18,8 +21,10 @@ import kotlinx.coroutines.launch
 class DetailActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityDetailBinding
-    private lateinit var username:String
-    private val viewModel: SharedViewModel by viewModels()
+    private lateinit var username: String
+    private val detailViewModel: DetailViewModel by viewModels()
+    private val followerViewModel: FollowerViewModel by viewModels()
+    private val followingViewModel: FollowingViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
@@ -33,23 +38,26 @@ class DetailActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
 
+
     @SuppressLint("SetTextI18n")
     private fun setupData() {
-        val dataObserver = Observer<DetailUserResponse?>{
+        showLoading(true)
+        val dataObserver = Observer<DetailUserResponse?> {
             binding.textViewName.text = it?.name
             binding.textViewUsername.text = it?.login
             Glide.with(this).load(it?.avatarUrl).into(binding.imageViewProfil)
             binding.textViewFollowers.text = "${it?.followers} Followers"
             binding.textViewFollowing.text = "${it?.following} Following"
+            showLoading(false)
         }
-        viewModel.readResponseBodyDetailUser.observe(this,dataObserver)
+        detailViewModel.readResponseBodyDetailUser.observe(this, dataObserver)
 
     }
 
     private fun getAPI() {
-        viewModel.getDetailUserAPI(username)
-        viewModel.getFollowerListAPI(username)
-        viewModel.getFollowingListAPI(username)
+        detailViewModel.getDetailUserAPI(username,this)
+        followingViewModel.getFollowingListAPI(username,this)
+        followerViewModel.getFollowerListAPI(username,this)
     }
 
 
@@ -59,10 +67,19 @@ class DetailActivity : AppCompatActivity() {
         viewPager.adapter = sectionsPagerAdapter
 
         val tabs = binding.tabLayout
-        TabLayoutMediator(tabs,viewPager){tab,position->
-            tab.text = if(position == 0 ) "Follower" else "Following"
+        TabLayoutMediator(tabs, viewPager) { tab, position ->
+            tab.text = if (position == 0) "Follower" else "Following"
         }.attach()
 
         supportActionBar?.elevation = 0f
     }
+
+    private fun showLoading(isLoading:Boolean){
+        if (isLoading) {
+            binding.progressBar.visibility = View.VISIBLE
+        } else {
+            binding.progressBar.visibility = View.GONE
+        }
+    }
+
 }

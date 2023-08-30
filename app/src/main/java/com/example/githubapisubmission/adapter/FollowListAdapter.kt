@@ -1,5 +1,6 @@
 package com.example.githubapisubmission.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,14 +33,13 @@ class FollowListAdapter(private val list: List<FollowListResponse?>) :
     }
 
     override fun getItemCount(): Int {
-        //Log.d("COUNT", list?.totalCount!!.toString())
         val count = list.size
+        Log.d("COUNT",count.toString())
         val max   = 30
         return if (count < max) count else max
     }
 
     override fun onBindViewHolder(holder: FollowListViewHolder, position: Int) {
-        //Log.d("OnBind", list?.items?.get(position).toString())
         holder.bind(list[position])
     }
 }

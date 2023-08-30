@@ -34,19 +34,17 @@ class UserListAdapter(private val list: UsersResponse?) :
     }
 
     override fun getItemCount(): Int {
-        //Log.d("COUNT", list?.totalCount!!.toString())
-        val COUNT = list?.totalCount!!
-        val MAX   = 30
-        return if (COUNT < MAX) COUNT else MAX
+        val count = list?.totalCount!!
+        val max = 30
+        return if (count < max) count else max
     }
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
-        //Log.d("OnBind", list?.items?.get(position).toString())
         val context = holder.itemView.context
         holder.bind(list?.items?.get(position))
-        holder.itemView.setOnClickListener{
-            val intent = Intent(context,DetailActivity::class.java)
-            intent.putExtra("username",list?.items?.get(position)?.login.toString())
+        holder.itemView.findViewById<ImageView>(R.id.image_view_avatar).setOnClickListener {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("username", list?.items?.get(position)?.login.toString())
             context.startActivity(intent)
         }
     }

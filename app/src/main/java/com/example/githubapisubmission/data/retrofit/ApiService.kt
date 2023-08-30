@@ -9,7 +9,7 @@ import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface ApiService {
-
+    //Ga dipake karena sama aja limitnya,apa saya ga tau
     //@Headers("Authorization: token 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")
     @GET("search/users")//Main
     fun getUser(@Query("q") userName:String ): Call<UsersResponse>
