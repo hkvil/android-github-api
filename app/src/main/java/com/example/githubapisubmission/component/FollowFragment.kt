@@ -13,7 +13,8 @@ import com.example.githubapisubmission.databinding.FragmentFollowBinding
 
 
 class FollowFragment(private val fragmentID: Int) : Fragment() {
-    private lateinit var binding: FragmentFollowBinding
+    private  var _binding: FragmentFollowBinding? = null
+    private val binding get() = _binding!!
     private val followerViewModel: FollowerViewModel by activityViewModels()
     private val followingViewModel: FollowingViewModel by activityViewModels()
 
@@ -22,13 +23,18 @@ class FollowFragment(private val fragmentID: Int) : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentFollowBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentFollowBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupRecyclerView()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 

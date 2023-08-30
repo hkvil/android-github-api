@@ -32,6 +32,7 @@ class FollowListAdapter(private val list: List<FollowListResponse?>) :
         return FollowListViewHolder(view)
     }
 
+
     override fun getItemCount(): Int {
         val count = list.size
         Log.d("COUNT",count.toString())
