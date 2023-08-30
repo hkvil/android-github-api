@@ -43,7 +43,7 @@ class DetailActivity : AppCompatActivity() {
     private fun setupData() {
         showLoading(true)
         val dataObserver = Observer<DetailUserResponse?> {
-            binding.textViewName.text = it?.name
+            binding.textViewName.text = it?.name ?: "No Name"
             binding.textViewUsername.text = it?.login
             Glide.with(this).load(it?.avatarUrl).into(binding.imageViewProfil)
             binding.textViewFollowers.text = "${it?.followers} Followers"
