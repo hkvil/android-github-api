@@ -9,6 +9,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 //PENGHUBUNG VIEWMODEL DENGAN DATABASE
+//TODO,STOP DISINI DULU BELUM DAPAT ALURNYA
 class FavoriteRepository(application: Application) {
     private val mFavoritesDao:FavoriteDao
     private val executorService:ExecutorService = Executors.newSingleThreadExecutor()
