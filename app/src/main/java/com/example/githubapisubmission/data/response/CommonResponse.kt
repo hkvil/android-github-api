@@ -1,9 +1,10 @@
 package com.example.githubapisubmission.data.response
 
+import com.example.githubapisubmission.adapter.AdapterProperty
 import com.google.gson.annotations.SerializedName
 
 
-data class FollowListResponse(
+data class CommonResponse(
 
 	@field:SerializedName("gists_url")
 	val gistsUrl: String? = null,
@@ -18,7 +19,7 @@ data class FollowListResponse(
 	val starredUrl: String? = null,
 
 	@field:SerializedName("login")
-	val login: String? = null,
+	override val login: String? = null,
 
 	@field:SerializedName("followers_url")
 	val followersUrl: String? = null,
@@ -36,7 +37,7 @@ data class FollowListResponse(
 	val receivedEventsUrl: String? = null,
 
 	@field:SerializedName("avatar_url")
-	val avatarUrl: String? = null,
+	override  val avatarUrl: String? = null,
 
 	@field:SerializedName("events_url")
 	val eventsUrl: String? = null,
@@ -58,4 +59,4 @@ data class FollowListResponse(
 
 	@field:SerializedName("organizations_url")
 	val organizationsUrl: String? = null
-)
+): AdapterProperty

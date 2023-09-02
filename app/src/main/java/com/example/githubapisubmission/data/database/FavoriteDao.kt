@@ -22,4 +22,7 @@ interface FavoriteDao {
 
     @Query("SELECT * FROM Favorite")
     fun getAllFavorites():LiveData<List<Favorite>>
+
+    @Query("SELECT COUNT(*) FROM Favorite WHERE login = :username")
+    fun isUserFavorited(username:String):LiveData<Int>
 }

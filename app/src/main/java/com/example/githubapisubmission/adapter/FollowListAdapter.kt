@@ -9,16 +9,17 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubapisubmission.R
-import com.example.githubapisubmission.data.response.FollowListResponse
 
 
-class FollowListAdapter(private val list: List<FollowListResponse?>) :
+class FollowListAdapter(
+    private val list: List<AdapterProperty?>
+) :
     RecyclerView.Adapter<FollowListAdapter.FollowListViewHolder>() {
     class FollowListViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private var username: TextView = itemView.findViewById(R.id.text_view_username)
         private var avatar: ImageView = itemView.findViewById(R.id.image_view_avatar)
 
-        fun bind(list: FollowListResponse?) {
+        fun bind(list: com.example.githubapisubmission.adapter.AdapterProperty?) {
             if (list != null) {
                 username.text = list.login
                 Glide.with(itemView).load(list.avatarUrl).into(avatar)
@@ -35,8 +36,8 @@ class FollowListAdapter(private val list: List<FollowListResponse?>) :
 
     override fun getItemCount(): Int {
         val count = list.size
-        Log.d("COUNT",count.toString())
-        val max   = 30
+        Log.d("COUNT", count.toString())
+        val max = 30
         return if (count < max) count else max
     }
 

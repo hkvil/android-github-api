@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -35,7 +36,14 @@ class DetailActivity : AppCompatActivity() {
             setupData()
         }
         setupTabLayout()
+        setupFAB()
         setContentView(binding.root)
+    }
+
+    private fun setupFAB() {
+        binding.fab.setOnClickListener {
+            Toast.makeText(this, "FAB CLICKED", Toast.LENGTH_LONG).show()
+        }
     }
 
 
@@ -55,9 +63,9 @@ class DetailActivity : AppCompatActivity() {
     }
 
     private fun getAPI() {
-        detailViewModel.getDetailUserAPI(username,this)
-        followingViewModel.getFollowingListAPI(username,this)
-        followerViewModel.getFollowerListAPI(username,this)
+        detailViewModel.getDetailUserAPI(username, this)
+        followingViewModel.getFollowingListAPI(username, this)
+        followerViewModel.getFollowerListAPI(username, this)
     }
 
 
@@ -74,7 +82,7 @@ class DetailActivity : AppCompatActivity() {
         supportActionBar?.elevation = 0f
     }
 
-    private fun showLoading(isLoading:Boolean){
+    private fun showLoading(isLoading: Boolean) {
         if (isLoading) {
             binding.progressBar.visibility = View.VISIBLE
         } else {

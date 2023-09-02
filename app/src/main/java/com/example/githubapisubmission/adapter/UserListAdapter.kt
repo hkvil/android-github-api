@@ -47,5 +47,10 @@ class UserListAdapter(private val list: UsersResponse?) :
             intent.putExtra("username", list?.items?.get(position)?.login.toString())
             context.startActivity(intent)
         }
+        holder.itemView.findViewById<TextView>(R.id.text_view_username).setOnClickListener {
+            val intent = Intent(context, DetailActivity::class.java)
+            intent.putExtra("username", list?.items?.get(position)?.login.toString())
+            context.startActivity(intent)
+        }
     }
 }

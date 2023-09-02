@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/toogle"
+        android:id="@+id/toogle_menu"
         android:icon="@drawable/baseline_mode_night_24"
         android:title="night_mode"
         app:showAsAction="always" />

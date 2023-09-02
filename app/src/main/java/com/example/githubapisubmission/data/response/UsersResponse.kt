@@ -1,5 +1,6 @@
 package com.example.githubapisubmission.data.response
 
+import com.example.githubapisubmission.adapter.AdapterProperty
 import com.google.gson.annotations.SerializedName
 
 

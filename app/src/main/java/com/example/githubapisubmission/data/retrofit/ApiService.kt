@@ -1,7 +1,7 @@
 package com.example.githubapisubmission.data.retrofit
 
 import com.example.githubapisubmission.data.response.DetailUserResponse
-import com.example.githubapisubmission.data.response.FollowListResponse
+import com.example.githubapisubmission.data.response.CommonResponse
 import com.example.githubapisubmission.data.response.UsersResponse
 import retrofit2.Call
 import retrofit2.http.GET
@@ -16,7 +16,7 @@ interface ApiService {
     @GET("/users/{username}")//Detail After Main Clicked
     fun getDetailUser(@Path("username") userName: String) : Call<DetailUserResponse>
     @GET("/users/{username}/followers")
-    fun getFollowerList(@Path("username") userName: String) : Call<List<FollowListResponse>>
+    fun getFollowerList(@Path("username") userName: String) : Call<List<CommonResponse>>
     @GET("/users/{username}/following")
-    fun getFollowingList(@Path("username") userName: String) : Call<List<FollowListResponse>>
+    fun getFollowingList(@Path("username") userName: String) : Call<List<CommonResponse>>
 }
