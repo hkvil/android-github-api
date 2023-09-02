@@ -7,11 +7,15 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.example.githubapisubmission.adapter.SectionsPagerAdapter
+import com.example.githubapisubmission.data.database.Favorite
 import com.example.githubapisubmission.data.response.DetailUserResponse
 import com.example.githubapisubmission.data.viewmodel.DetailViewModel
+import com.example.githubapisubmission.data.viewmodel.FavoriteViewModel
+import com.example.githubapisubmission.data.viewmodel.FavoriteViewModelFactory
 import com.example.githubapisubmission.data.viewmodel.FollowerViewModel
 import com.example.githubapisubmission.data.viewmodel.FollowingViewModel
 import com.example.githubapisubmission.databinding.ActivityDetailBinding
@@ -26,23 +30,43 @@ class DetailActivity : AppCompatActivity() {
     private val detailViewModel: DetailViewModel by viewModels()
     private val followerViewModel: FollowerViewModel by viewModels()
     private val followingViewModel: FollowingViewModel by viewModels()
+    private lateinit var favoriteViewModel: FavoriteViewModel
+    private lateinit var favorite: Favorite
+    private var isFavorite: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         supportActionBar?.title = "Detail User"
-        username = intent.getStringExtra("username").toString()
+        //TODO,Null karena limit API,hadeh susah2
+        favorite = intent.getParcelableExtra("data")!!
+        username = favorite.login
+
+        favoriteViewModel = ViewModelProvider(
+            this,
+            FavoriteViewModelFactory(application)
+        )[FavoriteViewModel::class.java]
+        favoriteViewModel.isFavorited(username).observe(this) {
+            isFavorite = it
+        }
+
         lifecycleScope.launch {
             getAPI()
             setupData()
         }
-        setupTabLayout()
         setupFAB()
+        setupTabLayout()
         setContentView(binding.root)
     }
 
     private fun setupFAB() {
         binding.fab.setOnClickListener {
-            Toast.makeText(this, "FAB CLICKED", Toast.LENGTH_LONG).show()
+            if (isFavorite > 0) {
+                Toast.makeText(this, "REMOVED FROM FAVORITES", Toast.LENGTH_LONG).show()
+                favoriteViewModel.removeFromFavorite(favorite)
+            } else if (isFavorite == 0) {
+                Toast.makeText(this, "ADDED TO FAVORITES", Toast.LENGTH_LONG).show()
+                favoriteViewModel.addToFavorite(favorite)
+            }
         }
     }
 

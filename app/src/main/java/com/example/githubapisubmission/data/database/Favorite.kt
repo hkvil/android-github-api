@@ -11,7 +11,6 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Favorite(
     @PrimaryKey(autoGenerate = false)
-
     @ColumnInfo(name = "login")
     override var login: String,
     //var username: String,

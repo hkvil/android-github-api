@@ -12,4 +12,7 @@ class FavoriteViewModel(application: Application):ViewModel() {
 
     fun getAllFavorites():LiveData<List<Favorite>> = mFavoriteViewModel.getAllFavorites()
     fun isFavorited(username:String):LiveData<Int> = mFavoriteViewModel.isUserFavorited(username)
+
+    fun addToFavorite(favorite: Favorite) = mFavoriteViewModel.insert(favorite)
+    fun removeFromFavorite(favorite: Favorite) = mFavoriteViewModel.delete(favorite)
 }

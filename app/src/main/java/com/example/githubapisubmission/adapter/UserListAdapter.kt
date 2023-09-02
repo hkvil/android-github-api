@@ -1,6 +1,7 @@
 package com.example.githubapisubmission.adapter
 
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.githubapisubmission.DetailActivity
 import com.example.githubapisubmission.R
+import com.example.githubapisubmission.data.database.Favorite
 import com.example.githubapisubmission.data.response.ItemsItem
 import com.example.githubapisubmission.data.response.UsersResponse
 
@@ -41,15 +43,17 @@ class UserListAdapter(private val list: UsersResponse?) :
 
     override fun onBindViewHolder(holder: UserListViewHolder, position: Int) {
         val context = holder.itemView.context
+        val login = list?.items?.get(position)?.login.toString()
+        val avatarUrl = list?.items?.get(position)?.avatarUrl.toString()
         holder.bind(list?.items?.get(position))
         holder.itemView.findViewById<ImageView>(R.id.image_view_avatar).setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("username", list?.items?.get(position)?.login.toString())
+            intent.putExtra("data",Favorite(login,avatarUrl))
             context.startActivity(intent)
         }
         holder.itemView.findViewById<TextView>(R.id.text_view_username).setOnClickListener {
             val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("username", list?.items?.get(position)?.login.toString())
+            intent.putExtra("data",Favorite(login, avatarUrl))
             context.startActivity(intent)
         }
     }

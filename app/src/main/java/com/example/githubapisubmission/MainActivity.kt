@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        testGround()
+        //testGround()
         binding = ActivityMainBinding.inflate(layoutInflater)
         setupPreferences()
         supportActionBar?.title = "Users Search"
@@ -74,20 +74,20 @@ class MainActivity : AppCompatActivity(){
         }
     }
 
-    private fun testGround() {
-        //TODO,Testing Room Database
-        val db = FavoriteRepository(application)
-        val fav1 = Favorite("hkvil", "https://avatars.githubusercontent.com/u/75840967?v=4")
-        val fav2 = Favorite("dd","https://tes.com")
-        //db.delete(fav1)
-        db.insert(fav1)
-        db.insert(fav2)
-        //val fav2 = Favorite("linus", "https://linus.com")
-        //Log.d("API",db.equals(db.insert(fav1)).toString())
-
-
-        //db.insert(fav2)
-    }
+//    private fun testGround() {
+//        //TODO,Testing Room Database
+//        val db = FavoriteRepository(application)
+//        val fav1 = Favorite("hkvil", "https://avatars.githubusercontent.com/u/75840967?v=4")
+//        val fav2 = Favorite("dd","https://tes.com")
+//        //db.delete(fav1)
+//        db.insert(fav1)
+//        db.insert(fav2)
+//        //val fav2 = Favorite("linus", "https://linus.com")
+//        //Log.d("API",db.equals(db.insert(fav1)).toString())
+//
+//
+//        //db.insert(fav2)
+//    }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         if (nightMode) {
