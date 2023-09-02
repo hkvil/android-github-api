@@ -47,6 +47,11 @@ class DetailActivity : AppCompatActivity() {
         )[FavoriteViewModel::class.java]
         favoriteViewModel.isFavorited(username).observe(this) {
             isFavorite = it
+            if (isFavorite > 0) {
+                binding.fab.setImageResource(R.drawable.baseline_favorite_24)
+            } else if (isFavorite == 0) {
+                binding.fab.setImageResource(R.drawable.baseline_favorite_border_24)
+            }
         }
 
         lifecycleScope.launch {

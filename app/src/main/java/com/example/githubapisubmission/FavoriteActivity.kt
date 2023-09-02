@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.githubapisubmission.adapter.FollowListAdapter
+import com.example.githubapisubmission.adapter.UserListAdapter
 import com.example.githubapisubmission.data.viewmodel.FavoriteViewModel
 import com.example.githubapisubmission.data.viewmodel.FavoriteViewModelFactory
 import com.example.githubapisubmission.databinding.ActivityFavoriteBinding
@@ -32,7 +33,7 @@ class FavoriteActivity : AppCompatActivity() {
 
         favoriteViewModel.getAllFavorites().observe(this){
             if (it!=null){
-                recyclerView.adapter = FollowListAdapter(it)
+                recyclerView.adapter = FollowListAdapter(it,true)
             }
         }
     }

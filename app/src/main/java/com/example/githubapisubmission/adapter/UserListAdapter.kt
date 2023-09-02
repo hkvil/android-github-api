@@ -45,15 +45,14 @@ class UserListAdapter(private val list: UsersResponse?) :
         val context = holder.itemView.context
         val login = list?.items?.get(position)?.login.toString()
         val avatarUrl = list?.items?.get(position)?.avatarUrl.toString()
+        val intent = Intent(context, DetailActivity::class.java)
+        intent.putExtra("data", Favorite(login, avatarUrl))
         holder.bind(list?.items?.get(position))
+
         holder.itemView.findViewById<ImageView>(R.id.image_view_avatar).setOnClickListener {
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("data",Favorite(login,avatarUrl))
             context.startActivity(intent)
         }
         holder.itemView.findViewById<TextView>(R.id.text_view_username).setOnClickListener {
-            val intent = Intent(context, DetailActivity::class.java)
-            intent.putExtra("data",Favorite(login, avatarUrl))
             context.startActivity(intent)
         }
     }
