@@ -1,4 +1,3 @@
-import com.android.build.api.dsl.Packaging
 import com.android.build.api.variant.BuildConfigField
 
 plugins {
@@ -54,13 +53,12 @@ androidComponents {
             "KEY",
             BuildConfigField(
                 "String",
-                "\"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\"",
+                "\"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\"",
                 "GITHUB API KEY"
             )
         )
     }
 }
-
 
 dependencies {
     implementation("androidx.room:room-runtime:2.5.2")
@@ -84,8 +82,6 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
 
     testImplementation("junit:junit:4.13.2")
-    testImplementation ("org.mockito:mockito-core:3.6.0")
-    testImplementation ("org.mockito:mockito-inline:3.6.0")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.test:rules:1.5.0")
